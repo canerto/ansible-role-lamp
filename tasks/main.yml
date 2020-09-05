@@ -1,0 +1,26 @@
+---
+#- hosts: webservers
+#  become: yes
+#  tasks:
+
+# Install MySQL, Apache, PHP
+  - name: Check package if installed and installs if not present
+    apt:
+      name: "{{ packages }}"
+      update_cache: yes
+      cache_valid_time: 3600
+      state: present
+    when: packages | length > 0
+
+  - name: Check if mysql is running and enable to start on boot
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+
+  - name: Check if apache2 is running and enable to start on boot
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+
